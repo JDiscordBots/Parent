@@ -1,0 +1,42 @@
+name: Update dependencies
+on:
+  schedule:
+    - cron: "0 0 * * 0"
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: update dependencies
+      run: mvn versions:use-latest-versions
+    - id: testUpdates
+      name: test if there are dependency updates
+      # 1 if changes
+      run: "echo ::set-output name=hasUpdates::$(git diff --exit-code>/dev/null;echo $?)"
+    - name: "run tests"
+      if: steps.testUpdates.outputs.hasUpdates != '0'
+      run: "mvn -B test"
+    - name: run Spotbugs analysis
+      if: steps.testUpdates.outputs.hasUpdates != '0'
+      run: mvn spotbugs:check
+    - name: "setup git for committing"
+      if: steps.testUpdates.outputs.hasUpdates != '0'
+      run: |
+        git remote add github https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
+        git pull github ${GITHUB_REF} --ff-only
+        git config --global user.email "${GITHUB_ACTOR}@github.com"
+        git config --global user.name "${GITHUB_ACTOR}"
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: commit
+      if: steps.testUpdates.outputs.hasUpdates != '0'
+      run: |
+        git add pom.xml
+        git commit -m "update dependencies"
+    - name: push
+      if: steps.testUpdates.outputs.hasUpdates != '0'
+      run: git push github HEAD:${GITHUB_REF}
