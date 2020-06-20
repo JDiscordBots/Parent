@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.jdiscordbots</groupId>
 	<artifactId>jdiscordbots-parent</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<packaging>pom</packaging>
 	<name>JDiscordBots Parent</name>
 	<description>Parent pom for easy packaging and deployment to maven central</description>
@@ -149,7 +149,7 @@
 						<param>https://jdiscordbots.github.io/util/data/notice/license-mappings.xml</param>
 					</licenseMapping>
 					<generateChildNotices>true</generateChildNotices>
-					<fileName>NOTICE.md</fileName>
+					<fileName>NOTICE</fileName>
 				</configuration>
 				<dependencies>
 					<dependency>
