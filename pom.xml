@@ -41,9 +41,9 @@
 			<url>https://jcenter.bintray.com</url>
 		</repository>
 		<repository>
-	        <id>jitpack.io</id>
-	        <url>https://jitpack.io</url>
-	    </repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
 		<repository>
 			<id>oss.sonatype.org-snapshot</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -245,12 +245,9 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- default main -->
-		<main>Main</main>
 	</properties>
 </project>
